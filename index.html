@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<title>Bangkok Radio</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#0d0d0f;color:white;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;display:grid;place-items:center}
+  .app{width:min(92vw,430px);padding:30px 20px}
+  h1{font-size:34px;margin:0 0 5px}.sub{color:#999;letter-spacing:4px;font-size:12px;margin-bottom:34px}
+  .station{width:100%;border:0;border-radius:24px;padding:22px;margin:12px 0;background:#1c1c1e;color:#fff;text-align:left;display:flex;align-items:center;justify-content:space-between;font-size:18px}
+  .freq{display:block;color:#9b9b9f;font-size:14px;margin-top:5px}.play{font-size:32px}
+  .now{text-align:center;color:#aaa;margin-top:28px;min-height:50px}.now b{color:#fff}
+  .note{font-size:12px;line-height:1.4;color:#777;margin-top:25px;text-align:center}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>RADIO</h1>
+  <div class="sub">BANGKOK</div>
+
+  <button class="station" onclick="playStation('COOLfahrenheit','93.0 FM','https://coolism-web.cdn.byteark.com/;stream/1')">
+    <span><b>COOLfahrenheit</b><span class="freq">93.0 FM</span></span><span class="play">▶︎</span>
+  </button>
+
+  <button class="station" onclick="openGreen()">
+    <span><b>Green Wave</b><span class="freq">106.5 FM</span></span><span class="play">▶︎</span>
+  </button>
+
+  <button class="station" onclick="playStation('MET 107','107.0 FM','https://met107-radio.xaus1977.workers.dev/')">
+    <span><b>MET 107</b><span class="freq">107.0 FM</span></span><span class="play">▶︎</span>
+  </button>
+
+  <div class="now" id="now">เลือกสถานีเพื่อเริ่มฟัง</div>
+  <div class="note">Green Wave เปิดหน้า Live ทางการของ ATIME • MET 107 เล่นผ่าน HTTPS proxy</div>
+
+  <audio id="player" playsinline></audio>
+</div>
+
+<script>
+const player = document.getElementById('player');
+const now = document.getElementById('now');
+
+async function playStation(name, freq, url) {
+  try {
+    if (player.dataset.url === url && !player.paused) {
+      player.pause();
+      now.innerHTML = 'หยุดชั่วคราว';
+      return;
+    }
+
+    player.src = url;
+    player.dataset.url = url;
+    await player.play();
+    now.innerHTML = 'กำลังเล่น<br><b>' + name + ' • ' + freq + '</b>';
+  } catch (e) {
+    console.error(e);
+    now.innerHTML = 'เปิดสตรีมไม่สำเร็จ กรุณาลองอีกครั้ง';
+  }
+}
+
+function openGreen() {
+  window.location.href = 'https://atime.live/greenwave/live';
+}
+</script>
+</body>
+</html>
