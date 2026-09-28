@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090a0c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BKK Airwaves">
+<title>BKK Airwaves</title>
+<style>
+:root{
+  --bg:#090a0c; --panel:#121419; --text:#f7f7f8; --muted:#8f95a3;
+  --line:rgba(255,255,255,.08); --shadow:0 24px 60px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
+body{
+  min-height:100vh; min-height:100dvh;
+  background:radial-gradient(900px 500px at 50% -15%,rgba(255,255,255,.10),transparent 55%),
+             linear-gradient(180deg,#0b0c0f,#07080a 65%);
+}
+.app{max-width:520px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 22px) 18px calc(env(safe-area-inset-bottom) + 32px)}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.brand small{display:block;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;margin-bottom:5px}
+.brand h1{font-size:28px;line-height:1;margin:0;letter-spacing:-.03em}
+.livepill{font-size:11px;color:#d9dce3;border:1px solid var(--line);background:rgba(255,255,255,.04);padding:8px 10px;border-radius:999px;display:flex;align-items:center;gap:7px}
+.dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.08)}
+.hero{background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.025));border:1px solid var(--line);border-radius:30px;padding:24px;box-shadow:var(--shadow);overflow:hidden;position:relative}
+.hero:before{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-100px;top:-120px;background:rgba(255,255,255,.05)}
+.kicker{font-size:11px;color:var(--muted);letter-spacing:.18em;font-weight:700;text-transform:uppercase}
+.heroTitle{font-size:32px;font-weight:760;margin:9px 0 2px;letter-spacing:-.035em}
+.heroSub{color:var(--muted);font-size:14px}
+.quality{margin-top:12px;display:inline-flex;padding:6px 9px;border:1px solid var(--line);border-radius:999px;font-size:10px;color:#c4c8d0;letter-spacing:.08em;text-transform:uppercase}
+.controls{display:flex;align-items:center;justify-content:center;gap:24px;margin:26px 0 12px}
+.ctrl{appearance:none;border:0;background:transparent;color:#d5d8df;font-size:30px;width:44px;height:44px;border-radius:50%}
+.play{appearance:none;border:0;width:72px;height:72px;border-radius:50%;background:#f5f5f7;color:#0a0b0d;font-size:28px;font-weight:700;box-shadow:0 12px 28px rgba(0,0,0,.32)}
+.status{text-align:center;min-height:38px;margin-bottom:8px}
+.status .main{font-size:15px;font-weight:650}
+.status .sub{font-size:12px;color:var(--muted);margin-top:4px}
+.volumeRow{display:flex;align-items:center;gap:10px;margin:18px 0 4px;color:var(--muted);font-size:12px}
+input[type=range]{width:100%;accent-color:#fff}
+.sectionTitle{display:flex;align-items:end;justify-content:space-between;margin:28px 2px 12px}
+.sectionTitle h2{font-size:17px;margin:0}
+.sectionTitle span{font-size:11px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.station{position:relative;appearance:none;border:1px solid var(--line);background:linear-gradient(145deg,#16181e,#101216);color:var(--text);border-radius:22px;padding:17px;text-align:left;min-height:128px;transition:.18s ease;box-shadow:0 10px 24px rgba(0,0,0,.15)}
+.station:active{transform:scale(.98)}
+.station.active{border-color:rgba(255,255,255,.34);background:linear-gradient(145deg,#242832,#15181e);box-shadow:0 14px 34px rgba(0,0,0,.30)}
+.station .badge{font-size:9px;color:#aeb3be;text-transform:uppercase;letter-spacing:.13em}
+.station .name{font-size:18px;font-weight:750;margin-top:11px;line-height:1.05}
+.station .freq{font-size:12px;color:var(--muted);margin-top:5px}
+.station .mini{position:absolute;right:15px;bottom:15px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.08);font-size:13px}
+.utility{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:14px}
+.utilbtn{appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.035);color:#d9dce3;border-radius:15px;padding:11px 8px;font-size:11px}
+.footer{text-align:center;color:#5f6470;font-size:10px;line-height:1.5;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <small>Bangkok, wherever you are</small>
+      <h1>BKK Airwaves</h1>
+    </div>
+    <div class="livepill"><span class="dot"></span> LIVE RADIO</div>
+  </div>
+
+  <section class="hero">
+    <div class="kicker">Now tuned to</div>
+    <div class="heroTitle" id="heroName">Choose a station</div>
+    <div class="heroSub" id="heroFreq">Bangkok live radio</div>
+    <div class="quality" id="heroQuality">READY</div>
+
+    <div class="controls">
+      <button class="ctrl" onclick="prevStation()" aria-label="Previous">‹</button>
+      <button class="play" id="mainPlay" onclick="togglePlay()" aria-label="Play">▶</button>
+      <button class="ctrl" onclick="nextStation()" aria-label="Next">›</button>
+    </div>
+
+    <div class="status">
+      <div class="main" id="statusMain">แตะสถานีด้านล่างเพื่อเริ่มฟัง</div>
+      <div class="sub" id="statusSub">Live from Bangkok</div>
+    </div>
+
+    <div class="volumeRow">
+      <span>VOL</span>
+      <input id="volume" type="range" min="0" max="1" step="0.01" value="1">
+    </div>
+  </section>
+
+  <div class="sectionTitle">
+    <h2>Stations</h2>
+    <span>One tap listening</span>
+  </div>
+
+  <div class="grid" id="stationGrid"></div>
+
+  <div class="utility">
+    <button class="utilbtn" onclick="setSleep(15)">Sleep 15m</button>
+    <button class="utilbtn" onclick="setSleep(30)">Sleep 30m</button>
+    <button class="utilbtn" onclick="setSleep(60)">Sleep 60m</button>
+  </div>
+
+  <div class="footer">
+    Personal radio dashboard · Stream availability depends on each station.<br>
+    EAZY is kept as an online/legacy stream source.
+  </div>
+
+  <audio id="player" playsinline preload="none"></audio>
+</div>
+
+<script>
+const stations = [
+  {name:"COOLfahrenheit",freq:"93.0 FM",quality:"HTTPS STREAM",type:"stream",url:"https://coolism-web.cdn.byteark.com/;stream/1"},
+  {name:"Green Wave",freq:"106.5 FM",quality:"ATIME LIVE",type:"external",url:"https://atime.live/greenwave/live"},
+  {name:"MET 107",freq:"107.0 FM",quality:"HTTPS PROXY",type:"stream",url:"https://met107-radio.xaus1977.workers.dev/"},
+  {name:"EAZY FM",freq:"Online / legacy",quality:"AAC STREAM",type:"stream",url:"https://playerservices.streamtheworld.com/api/livestream-redirect/EAZYFM_1055AAC_SC"}
+];
+
+let currentIndex = Number(localStorage.getItem("bkkAirwavesLast") || 0);
+let sleepTimer = null;
+
+const player = document.getElementById("player");
+const mainPlay = document.getElementById("mainPlay");
+const heroName = document.getElementById("heroName");
+const heroFreq = document.getElementById("heroFreq");
+const heroQuality = document.getElementById("heroQuality");
+const statusMain = document.getElementById("statusMain");
+const statusSub = document.getElementById("statusSub");
+const grid = document.getElementById("stationGrid");
+const volume = document.getElementById("volume");
+
+function renderStations(){
+  grid.innerHTML = "";
+  stations.forEach((s,i)=>{
+    const b=document.createElement("button");
+    b.className="station"+(i===currentIndex ? " active":"");
+    b.innerHTML=`<div class="badge">${s.type==="stream"?"LIVE STREAM":"OFFICIAL LIVE"}</div>
+      <div class="name">${s.name}</div>
+      <div class="freq">${s.freq}</div>
+      <div class="mini">${i===currentIndex && !player.paused ? "Ⅱ":"▶"}</div>`;
+    b.onclick=()=>selectStation(i,true);
+    grid.appendChild(b);
+  });
+}
+
+function updateHero(){
+  const s=stations[currentIndex];
+  heroName.textContent=s.name;
+  heroFreq.textContent=s.freq;
+  heroQuality.textContent=s.quality;
+  renderStations();
+}
+
+async function selectStation(i, autoplay=false){
+  currentIndex=(i+stations.length)%stations.length;
+  localStorage.setItem("bkkAirwavesLast",currentIndex);
+  const s=stations[currentIndex];
+  updateHero();
+
+  if(s.type==="external"){
+    player.pause();
+    mainPlay.textContent="▶";
+    statusMain.textContent="เปิด Official Live ของ "+s.name;
+    statusSub.textContent="This station uses its official web player";
+    if(autoplay) location.href=s.url;
+    return;
+  }
+
+  if(player.dataset.url !== s.url){
+    player.pause();
+    player.src=s.url;
+    player.dataset.url=s.url;
+  }
+  if(autoplay) await startPlayback();
+}
+
+async function startPlayback(){
+  const s=stations[currentIndex];
+  if(s.type==="external"){ location.href=s.url; return; }
+  statusMain.textContent="Connecting…";
+  statusSub.textContent=s.name+" · "+s.freq;
+  try{
+    await player.play();
+    mainPlay.textContent="Ⅱ";
+    statusMain.textContent="Live now";
+    statusSub.textContent=s.name+" · "+s.freq;
+  }catch(e){
+    mainPlay.textContent="▶";
+    statusMain.textContent="Stream unavailable";
+    statusSub.textContent="ลองใหม่อีกครั้ง หรือเลือกสถานีอื่น";
+  }
+  renderStations();
+}
+
+function togglePlay(){
+  const s=stations[currentIndex];
+  if(s.type==="external"){ location.href=s.url; return; }
+  if(player.paused) startPlayback();
+  else{
+    player.pause();
+    mainPlay.textContent="▶";
+    statusMain.textContent="Paused";
+    statusSub.textContent=s.name+" · "+s.freq;
+    renderStations();
+  }
+}
+function nextStation(){ selectStation(currentIndex+1,true); }
+function prevStation(){ selectStation(currentIndex-1,true); }
+
+volume.addEventListener("input",()=> player.volume=Number(volume.value));
+
+player.addEventListener("playing",()=>{mainPlay.textContent="Ⅱ";statusMain.textContent="Live now";renderStations();});
+player.addEventListener("pause",()=>renderStations());
+player.addEventListener("waiting",()=>{statusMain.textContent="Buffering…";});
+player.addEventListener("error",()=>{mainPlay.textContent="▶";statusMain.textContent="Stream unavailable";statusSub.textContent="ต้นทางอาจปิดชั่วคราว";});
+
+function setSleep(minutes){
+  clearTimeout(sleepTimer);
+  sleepTimer=setTimeout(()=>{
+    player.pause();
+    mainPlay.textContent="▶";
+    statusMain.textContent="Sleep timer ended";
+    statusSub.textContent="Playback stopped";
+  },minutes*60*1000);
+  statusMain.textContent=`Sleep timer · ${minutes} min`;
+  statusSub.textContent="วิทยุจะหยุดอัตโนมัติ";
+}
+
+updateHero();
+renderStations();
+</script>
+</body>
+</html>
